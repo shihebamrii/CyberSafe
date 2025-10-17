@@ -14,7 +14,6 @@ interface HeroProps {
 export default function Hero({ mascotSize = 500 }: HeroProps) {
   return (
     <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
-git push -u origin master
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
