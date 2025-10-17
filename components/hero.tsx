@@ -4,17 +4,19 @@ import { Button } from "@/components/ui/button"
 import { Zap, Gamepad2 } from "lucide-react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-
+import { useRouter } from "next/navigation"
 
 // Use consistent prop name: mascotSize for the hero fox image (controls both width and height)
 interface HeroProps {
-  mascotSize?: number; // Width and height in pixels; defaults to 450 to match original
+  mascotSize?: number; // Width and height in pixels; defaults to 500 to match original
 }
 
 export default function Hero({ mascotSize = 500 }: HeroProps) {
+  const router = useRouter()
+
   return (
     <section className="relative overflow-hidden py-20 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{ y: [0, -20, 0], x: [0, 10, 0] }}
           transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY }}
@@ -59,11 +61,22 @@ export default function Hero({ mascotSize = 500 }: HeroProps) {
               fun and stay protected!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-8 py-6 text-lg font-semibold flex items-center gap-2 group">
+              <Button
+                type="button"
+                aria-label="Start learning"
+                onClick={() => router.push("/learn")}
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full px-8 py-6 text-lg font-semibold flex items-center gap-2 group"
+              >
                 <Zap className="w-5 h-5 group-hover:animate-pulse" />
                 Start Learning
               </Button>
-              <Button className="bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full px-8 py-6 text-lg font-semibold flex items-center gap-2 group">
+
+              <Button
+                type="button"
+                aria-label="Play a game"
+                onClick={() => router.push("/play")}
+                className="bg-gradient-to-r from-pink-400 to-pink-500 hover:from-pink-500 hover:to-pink-600 text-white rounded-full px-8 py-6 text-lg font-semibold flex items-center gap-2 group"
+              >
                 <Gamepad2 className="w-5 h-5 group-hover:animate-pulse" />
                 Play a Game
               </Button>
@@ -74,7 +87,7 @@ export default function Hero({ mascotSize = 500 }: HeroProps) {
           <div className="relative h-96 md:h-full flex items-center justify-center">
             <div className="relative w-full h-full flex items-center justify-center">
               {/* Hero mascot image with size controlled via mascotSize prop */}
-              <Image 
+              <Image
                 src="/fox/hero.png"
                 alt="Hero illustration"
                 width={mascotSize}
@@ -89,4 +102,4 @@ export default function Hero({ mascotSize = 500 }: HeroProps) {
       </div>
     </section>
   )
-} 
+              }
