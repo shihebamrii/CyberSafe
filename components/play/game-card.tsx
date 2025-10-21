@@ -25,7 +25,7 @@ export default function GameCard({ game, onPlay }: GameCardProps) {
       <p className="text-gray-700 mb-6 text-sm">{game.description}</p>
       <Button
         onClick={onPlay}
-        className="w-full bg-navy-blue hover:bg-blue-900 text-white font-bold py-2 rounded-lg transition-all"
+        className="w-full bg-blue-500  hover:bg-blue-900 text-white font-bold py-2 rounded-lg transition-all"
       >
         Play Now
       </Button>

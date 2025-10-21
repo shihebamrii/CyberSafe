@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import Image from "next/image"
 
 interface LessonModalProps {
   lesson: {
@@ -58,7 +59,15 @@ export default function LessonModal({ lesson, isCompleted, onMarkDone, onClose }
             </button>
 
             <div className="flex items-center gap-4 mb-4">
-              <div className="text-6xl">{lesson.icon}</div>
+              <div>
+                <Image
+                  src={`/fox/emoji/${lesson.icon}`}
+                  alt={`${lesson.title} icon`}
+                  width={96}
+                  height={96}
+                  className="object-contain"
+                />
+              </div>
               <div>
                 <h2 className="text-3xl font-bold text-navy-900">{lesson.title}</h2>
               </div>

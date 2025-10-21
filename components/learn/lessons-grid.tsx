@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface Lesson {
   id: number
   title: string
-  icon: string
+  icon: string // filename under /fox/emoji, e.g. 'strongPass.png'
   description: string
   content: string
 }
@@ -49,22 +50,33 @@ export default function LessonsGrid({ lessons, completedLessons, onSelectLesson 
                   </div>
                 )}
 
-                {/* Icon */}
-                <div className="text-5xl mb-4">{lesson.icon}</div>
+                {/* Background Icon as image */}
+                <div className="absolute right-0 bottom-0 opacity-50 transform translate-x-6 translate-y-6">
+                  <Image
+                    src={`/fox/emoji/${lesson.icon}`}
+                    alt={`${lesson.title} icon`}
+                    width={220}
+                    height={220}
+                    className="object-contain"
+                  />
+                </div>
 
-                {/* Title */}
-                <h3 className="text-2xl font-bold text-navy-900 mb-2">{lesson.title}</h3>
+                {/* Content Container including button */}
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Title */}
+                  <h3 className="text-2xl font-bold text-navy-900 mb-2">{lesson.title}</h3>
 
-                {/* Description */}
-                <p className="text-navy-700 mb-6 flex-grow">{lesson.description}</p>
+                  {/* Description */}
+                  <p className="text-navy-700 mb-6 flex-grow">{lesson.description}</p>
 
-                {/* Button */}
-                <Button
-                  onClick={() => onSelectLesson(lesson.id)}
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-lg"
-                >
-                  {completedLessons.includes(lesson.id) ? "Review Lesson" : "Start Lesson"}
-                </Button>
+                  {/* Button */}
+                  <Button
+                    onClick={() => onSelectLesson(lesson.id)}
+                    className="w-40 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold rounded-lg"
+                  >
+                    {completedLessons.includes(lesson.id) ? "Review Lesson" : "Start Lesson"}
+                  </Button>
+                </div>
               </div>
             </motion.div>
           ))}

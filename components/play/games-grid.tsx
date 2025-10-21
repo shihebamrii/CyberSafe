@@ -22,25 +22,12 @@ const games = [
   },
   {
     id: 3,
-    title: "Cyber Defender",
-    emoji: "🛡️",
-    description: "Stop the viruses before they reach your computer!",
-    color: "from-mint-green to-green-300",
-  },
-  {
-    id: 4,
     title: "Chat Smart",
     emoji: "💬",
-    description: "Decide what's safe to share and what's private.",
+    description: "Decide what's safe to share and what's private. In online chats.",
     color: "from-soft-pink to-pink-300",
   },
-  {
-    id: 5,
-    title: "Internet Explorer",
-    emoji: "🧩",
-    description: "Find hidden cybersecurity items in a fun mini-quest.",
-    color: "from-purple-300 to-purple-400",
-  },
+
 ]
 
 export default function GamesGrid() {

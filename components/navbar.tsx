@@ -45,9 +45,11 @@ export default function Navbar() {
 
           {/* Desktop Button */}
           <div className="hidden md:block">
-            <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-full px-6">
-              Start Learning
-            </Button>
+            <a href="/learn">
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-full px-6">
+                Start Learning
+              </Button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
