@@ -23,13 +23,13 @@ export default function PasswordBuilderGame({ onComplete }: PasswordBuilderGameP
   const [activeId, setActiveId] = useState<string | null>(null)
   const [strength, setStrength] = useState(0)
   const [message, setMessage] = useState("Drag items into the password zone!")
-  const [showImage, setShowImage] = useState<null | { src: string; corner: string }>(null)
+  const [showImage, setShowImage] = useState<null | { src: string }>(null)
 
   const words = ["fox", "moon", "hero", "cat"]
   const numbers = ["123", "99", "7"]
   const symbols = ["!", "@", "#", "$"]
 
-  // ---------------- Check Strength (manual) ----------------
+  // ---------------- Check Strength ----------------
   const checkStrength = () => {
     let score = 0
     if (passwordParts.some((p) => words.includes(p))) score += 25
@@ -41,23 +41,18 @@ export default function PasswordBuilderGame({ onComplete }: PasswordBuilderGameP
     score = Math.min(score, 100)
     setStrength(score)
 
-    // Update message
     if (score === 25) setMessage("😕 Getting there, but still weak!")
     else if (score === 50) setMessage("🛠 Better, but not perfect yet!")
     else if (score === 100) setMessage("🦊 Awesome! That’s hacker-proof!")
     else setMessage("🔍 Try adding words, numbers, and symbols for a stronger password!")
 
-    // Trigger image animation
     triggerImage(score)
-
     if (score === 100) setTimeout(onComplete, 1200)
   }
 
-  // ---------------- Animated Image (use images from public/fox/expression) ----------------
+  // ---------------- Trigger Image ----------------
   const triggerImage = (score: number) => {
     const basePath = "/fox/expression"
-
-    // lists of possible PNG filenames in public/fox/expression for each score
     const imagesByScore: Record<number, string[]> = {
       25: ["notGood.png"],
       50: ["eh.png"],
@@ -67,16 +62,11 @@ export default function PasswordBuilderGame({ onComplete }: PasswordBuilderGameP
     const list = imagesByScore[score]
     if (!list || list.length === 0) return
 
-    // pick a random image from the appropriate list
     const filename = list[Math.floor(Math.random() * list.length)]
     const src = `${basePath}/${filename}`
 
-    // Randomly choose one of the four corners
-    const corners = ["top-left", "top-right", "bottom-left", "bottom-right"]
-    const corner = corners[Math.floor(Math.random() * corners.length)]
-
-    setShowImage({ src, corner })
-    setTimeout(() => setShowImage(null), 2000) // Hide after animation
+    setShowImage({ src })
+    setTimeout(() => setShowImage(null), 2000) // hide after animation
   }
 
   const handleDrop = (id: string) => {
@@ -103,24 +93,24 @@ export default function PasswordBuilderGame({ onComplete }: PasswordBuilderGameP
   }
 
   return (
-    <div className="relative w-full flex flex-col items-center space-y-4 overflow-hidden">
-      {/* Floating Animated Images */}
+    <div className=" w-full flex flex-col items-center space-y-4 overflow-hidden">
+      {/* Floating Animated Image (left side only) */}
       <AnimatePresence>
         {showImage && (
           <motion.div
             key={showImage.src}
-            initial={getCornerInitial(showImage.corner)}
-            animate={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="absolute z-50"
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="absolute left-0 top-1/2 -translate-y-1/2"
           >
             <Image
               src={showImage.src}
-              alt="reaction"
-              width={160}
-              height={160}
-              className="rounded-xl shadow-lg"
+              alt="Password feedback"
+              width={460}
+              height={460}
+              className="rounded-xl "
             />
           </motion.div>
         )}
@@ -200,23 +190,6 @@ export default function PasswordBuilderGame({ onComplete }: PasswordBuilderGameP
       </AnimatePresence>
     </div>
   )
-}
-
-// ---------------- Helper for corner animation ----------------
-function getCornerInitial(corner: string) {
-  const offset = 300
-  switch (corner) {
-    case "top-left":
-      return { x: -offset, y: -offset, opacity: 0, scale: 0.8 }
-    case "top-right":
-      return { x: offset, y: -offset, opacity: 0, scale: 0.8 }
-    case "bottom-left":
-      return { x: -offset, y: offset, opacity: 0, scale: 0.8 }
-    case "bottom-right":
-      return { x: offset, y: offset, opacity: 0, scale: 0.8 }
-    default:
-      return { opacity: 0 }
-  }
 }
 
 // ---------------- Password Zone ----------------
